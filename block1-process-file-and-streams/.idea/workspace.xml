@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6d12261c-4d51-4f93-97c2-c3c33e7477be" name="Changes" comment="Esta es la buena" />
+    <list default="true" id="6d12261c-4d51-4f93-97c2-c3c33e7477be" name="Changes" comment="Esta es la buena">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -12,6 +14,19 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings">
+    <option name="selectedUrlAndAccountId">
+      <UrlAndAccount>
+        <option name="accountId" value="8ef89269-5a0b-43e3-b51a-c97d55efdbc3" />
+        <option name="url" value="https://github.com/KorJunior/RepositioBosonit.git" />
+      </UrlAndAccount>
+    </option>
   </component>
   <component name="ProjectId" id="2Pddx5CMya3amEPAcBxmWtWJoEu" />
   <component name="ProjectViewState">
@@ -60,7 +75,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1683791136517</updated>
-      <workItem from="1683791137596" duration="304000" />
+      <workItem from="1683791137596" duration="484000" />
     </task>
     <task id="LOCAL-00001" summary="Esta es la buena">
       <created>1683791280163</created>
@@ -76,7 +91,14 @@
       <option name="project" value="LOCAL" />
       <updated>1683791438247</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Esta es la buena">
+      <created>1683791453295</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1683791453295</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
