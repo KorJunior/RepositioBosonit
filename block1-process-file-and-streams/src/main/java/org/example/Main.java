@@ -36,7 +36,6 @@ public class Main {
 
         if (personaEncontrada.isPresent()) {
             System.out.println(personaEncontrada.get());
-
         } else {
             System.out.println("No hay Registros");
         }
