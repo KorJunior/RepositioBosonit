@@ -1,0 +1,20 @@
+2023-05-16 09:30:54 [main] ERROR c.e.b.Block5LoggingApplication - Esto es un mensaje de error
+2023-05-16 09:30:54 [main] WARN  c.e.b.Block5LoggingApplication - Esto es un mensaje de advertencia
+2023-05-16 09:33:26 [main] INFO  c.e.b.Block5LoggingApplication - Starting Block5LoggingApplication using Java 17.0.7 with PID 16456 (C:\Users\junior.fofana\OneDrive - Bosonit\Escritorio\ProyectosJava\block5-logging\target\classes started by junior.fofana in C:\Users\junior.fofana\OneDrive - Bosonit\Escritorio\ProyectosJava\block5-logging)
+2023-05-16 09:33:26 [main] INFO  c.e.b.Block5LoggingApplication - No active profile set, falling back to 1 default profile: "default"
+2023-05-16 09:33:27 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+2023-05-16 09:33:27 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2023-05-16 09:33:27 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2023-05-16 09:33:27 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.8]
+2023-05-16 09:33:27 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2023-05-16 09:33:27 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 635 ms
+2023-05-16 09:33:27 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2023-05-16 09:33:27 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+2023-05-16 09:33:27 [main] INFO  c.e.b.Block5LoggingApplication - Started Block5LoggingApplication in 1.203 seconds (process running for 1.926)
+2023-05-16 09:33:27 [main] ERROR c.e.b.Block5LoggingApplication - Esto es un mensaje de error
+2023-05-16 09:33:27 [main] WARN  c.e.b.Block5LoggingApplication - Esto es un mensaje de advertencia
+2023-05-16 09:33:27 [main] INFO  c.e.b.Block5LoggingApplication - Esto es un mensaje informativo
+2023-05-16 09:33:50 [main] ERROR c.e.b.Block5LoggingApplication - Esto es un mensaje de error
+2023-05-16 09:33:50 [main] WARN  c.e.b.Block5LoggingApplication - Esto es un mensaje de advertencia
+2023-05-16 11:21:58 [main] ERROR c.e.b.Block5LoggingApplication - Esto es un mensaje de error
+2023-05-16 11:21:58 [main] WARN  c.e.b.Block5LoggingApplication - Esto es un mensaje de advertencia
