@@ -1,4 +1,4 @@
-package com.example.block7crudvalidation.Excepciones;
+package com.example.block7crudvalidation.excepciones;
 
 import java.util.Date;
 
