@@ -1,8 +1,5 @@
 package com.example.block7crudvalidation.clase.profesor.controller;
 
-
-
-import com.example.block7crudvalidation.clase.estudiante.controller.dto.EstudianteOutFather;
 import com.example.block7crudvalidation.clase.profesor.aplicacion.ProfesorServiceImp;
 import com.example.block7crudvalidation.clase.profesor.controller.dto.ProfesorInput;
 import com.example.block7crudvalidation.clase.profesor.controller.dto.ProfesorOutPutFather;
@@ -23,9 +20,9 @@ public class ControladorProfesor {
     public ProfesorOutputSimple buscarProfesor(@PathVariable Long id) {
         return profesorService.buscarProfesor(id);
     }
+
     @GetMapping("/listar")
     public List<ProfesorOutPutFather> listarPersonas(@RequestParam("outputType") String outputType) {
-
         if (outputType.equalsIgnoreCase("full")) {
             List<ProfesorOutPutFather> profesorOutPutFathers = profesorService.listarProfesores(outputType);
             return new ArrayList<>(profesorOutPutFathers);
@@ -34,6 +31,7 @@ public class ControladorProfesor {
             return new ArrayList<>(profesorOutPutFathers);
         }
     }
+
     @PostMapping("/agregar")
     public ProfesorOutputSimple addProfesor(@RequestBody ProfesorInput profesorInput) throws Exception {
 

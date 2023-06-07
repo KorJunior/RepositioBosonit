@@ -36,8 +36,8 @@ public class EstudianteServiceImp implements EstudianteService {
     private EstudianteAsignaturaRepositorio estudianteAsignaturaRepositorio;
 
     @Override
-    public EstudianteOutFather buscarEstudiante(Long id,String outputType) {
-        Optional <EstudianteEntity> op1 = estudianteImpRepositorio.findById(id);
+    public EstudianteOutFather buscarEstudiante(Long id, String outputType) {
+        Optional<EstudianteEntity> op1 = estudianteImpRepositorio.findById(id);
         EstudianteEntity estudianteEntity;
         EstudianteOutFather estudianteOutFather;
 
@@ -51,7 +51,7 @@ public class EstudianteServiceImp implements EstudianteService {
                 estudianteOutFather = estudianteEntity.parseEstudianteOutputSimple();
                 return estudianteOutFather;
             }
-        }else{
+        } else {
             throw new UnprocessableEntityException("No existe la asignatura con id: " + id);
         }
     }
@@ -72,7 +72,6 @@ public class EstudianteServiceImp implements EstudianteService {
 
         return estudianteOutFather;
     }
-
 
 
     @Override
@@ -114,9 +113,9 @@ public class EstudianteServiceImp implements EstudianteService {
         List<EstudianteEntity> estudiantes;
 
 
-        if (op1.isPresent()){
-            estudianteEntity= op1.get();
-            personaEntity=estudianteEntity.getPersonaEntity();
+        if (op1.isPresent()) {
+            estudianteEntity = op1.get();
+            personaEntity = estudianteEntity.getPersonaEntity();
             personaEntity.setEstudianteEntity(null);
 
             profesorEntity = estudianteEntity.getProfesorEntity();
@@ -138,7 +137,7 @@ public class EstudianteServiceImp implements EstudianteService {
             estudianteEntity.setProfesorEntity(null);
 
 
-        }else{
+        } else {
             throw new EntityNotFoundException("Estudiante no encontrado con ID: " + id);
         }
 
@@ -164,6 +163,80 @@ public class EstudianteServiceImp implements EstudianteService {
             return estudianteEntity.parseEstudianteOutputFull();
         } else {
             throw new EntityNotFoundException("Profesor no encontrado con ID: " + id);
+        }
+    }
+
+    public void asignarAsignaturas(Long estudianteId, List<Long> asignaturaIds) {
+        Optional<List<Long>> op1 = Optional.ofNullable(asignaturaIds);
+        Optional<EstudianteEntity> op3 = estudianteImpRepositorio.findById(estudianteId);
+        Optional<EstudianteAsignaturaEntity> op2;
+        List<EstudianteAsignaturaEntity> estudianteAsignaturaEntities;
+        List<EstudianteEntity> estudianteEntities ;
+        EstudianteEntity estudianteEntity;
+        EstudianteAsignaturaEntity estudianteAsignaturaEntity;
+        List<Long> asignaturasIds = new ArrayList<>();
+
+        if (op1.isPresent() && op3.isPresent()) {
+            estudianteEntity = op3.get();
+
+            for (Long asignaturaId : asignaturaIds) {
+                op2 = estudianteAsignaturaRepositorio.findById(asignaturaId);
+                if (op2.isPresent()) {
+                    estudianteAsignaturaEntity = op2.get();
+
+                    estudianteAsignaturaEntities = new ArrayList<>(estudianteEntity.getEstudios());
+                    estudianteAsignaturaEntities.add(estudianteAsignaturaEntity);
+                    estudianteEntity.setEstudios(estudianteAsignaturaEntities);
+
+                    estudianteEntities = new ArrayList<>(estudianteAsignaturaEntity.getEstudiantesEntities());
+                    estudianteEntities.add(estudianteEntity);
+                    estudianteAsignaturaEntity.setEstudiantesEntities(estudianteEntities);
+
+                    estudianteImpRepositorio.save(estudianteEntity);
+                    estudianteAsignaturaRepositorio.save(estudianteAsignaturaEntity);
+                } else {
+                    throw new EntityNotFoundException("No existe la asignatura con id: " + asignaturaId);
+                }
+            }
+        } else {
+            throw new EntityNotFoundException("No existe el estudiante con id: " + estudianteId);
+        }
+
+    }
+    public void desasignarAsignaturas(Long estudianteId, List<Long> asignaturaIds) {
+        Optional<List<Long>> op1 = Optional.ofNullable(asignaturaIds);
+        Optional<EstudianteEntity> op3 = estudianteImpRepositorio.findById(estudianteId);
+        Optional<EstudianteAsignaturaEntity> op2;
+        List<EstudianteAsignaturaEntity> estudianteAsignaturaEntities;
+        List<EstudianteEntity> estudianteEntities;
+        EstudianteEntity estudianteEntity;
+        EstudianteAsignaturaEntity estudianteAsignaturaEntity;
+        List<Long> asignaturasIds = new ArrayList<>();
+
+        if (op1.isPresent() && op3.isPresent()) {
+            estudianteEntity = op3.get();
+
+            for (Long asignaturaId : asignaturaIds) {
+                op2 = estudianteAsignaturaRepositorio.findById(asignaturaId);
+                if (op2.isPresent()) {
+                    estudianteAsignaturaEntity = op2.get();
+
+                    estudianteAsignaturaEntities = new ArrayList<>(estudianteEntity.getEstudios());
+                    estudianteAsignaturaEntities.remove(estudianteAsignaturaEntity);
+                    estudianteEntity.setEstudios(estudianteAsignaturaEntities);
+
+                    estudianteEntities = new ArrayList<>(estudianteAsignaturaEntity.getEstudiantesEntities());
+                    estudianteEntities.remove(estudianteEntity);
+                    estudianteAsignaturaEntity.setEstudiantesEntities(estudianteEntities);
+
+                    estudianteImpRepositorio.save(estudianteEntity);
+                    estudianteAsignaturaRepositorio.save(estudianteAsignaturaEntity);
+                } else {
+                    throw new EntityNotFoundException("No existe la asignatura con id: " + asignaturaId);
+                }
+            }
+        } else {
+            throw new EntityNotFoundException("No existe el estudiante con id: " + estudianteId);
         }
     }
 

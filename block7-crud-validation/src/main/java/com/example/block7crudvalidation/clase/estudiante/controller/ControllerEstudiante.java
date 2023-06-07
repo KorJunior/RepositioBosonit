@@ -27,6 +27,17 @@ public class ControllerEstudiante {
             return new ArrayList<>(estudianteOutPutSimples);
         }
     }
+    @PostMapping("/estudiantes/{id}")
+    public void asignarAsignaturas(@PathVariable("id") Long id,@RequestBody List<Long> listaId ) {
+        estudianteServiceImp.asignarAsignaturas(id, listaId);
+    }
+    @DeleteMapping("/estudiantes/{id}")
+    public void desasignarAsignaturas(@PathVariable Long estudianteId,@RequestBody List<Long> asignaturaIds) {
+            estudianteServiceImp.desasignarAsignaturas(estudianteId, asignaturaIds);
+
+
+    }
+
     @GetMapping("/estudiante/{id}")
     public EstudianteOutFather buscarEstudiante(@PathVariable("id") Long id, @RequestParam("outputType") String outputType) {
         return estudianteServiceImp.buscarEstudiante(id, outputType);
@@ -39,10 +50,12 @@ public class ControllerEstudiante {
         return estudianteServiceImp.addEstudiante(estudiante);
 
     }
+
     @PutMapping("/estudiante/{id}")
     public EstudianteOutputFull updatePersona(@PathVariable("id") Long id, @RequestBody EstudianteInPut persona) {
         return estudianteServiceImp.updatePersona(id, persona);
     }
+
     @DeleteMapping("/estudiante/{id}")
     public void borrarEstudiante(@PathVariable("id") Long id) {
         estudianteServiceImp.borrarEstudiante(id);

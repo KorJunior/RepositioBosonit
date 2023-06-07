@@ -1,10 +1,13 @@
 package com.example.block7crudvalidation.clase.persona.aplicacion;
 
 import com.example.block7crudvalidation.clase.estudiante.aplicacion.EstudianteServiceImp;
+import com.example.block7crudvalidation.clase.estudiante.controller.dto.EstudianteOutPutSimple;
 import com.example.block7crudvalidation.clase.estudiante.dominio.EstudianteEntity;
 import com.example.block7crudvalidation.clase.persona.PersonaImpRepositorio;
 import com.example.block7crudvalidation.clase.persona.controller.dto.Persona.PersonaInput;
-import com.example.block7crudvalidation.clase.persona.controller.dto.Persona.PersonaOutPut;
+import com.example.block7crudvalidation.clase.persona.controller.dto.Persona.PersonaOutPutFather;
+import com.example.block7crudvalidation.clase.persona.controller.dto.Persona.PersonaOutPutFull;
+import com.example.block7crudvalidation.clase.persona.controller.dto.Persona.PersonaOutPutSimple;
 import com.example.block7crudvalidation.clase.persona.dominio.PersonaEntity;
 import com.example.block7crudvalidation.clase.profesor.aplicacion.ProfesorServiceImp;
 import com.example.block7crudvalidation.clase.profesor.dominio.ProfesorEntity;
@@ -32,7 +35,7 @@ public class PersonaServiceImpl implements PersonaService {
 
     @Override
     @GetMapping("/personaid/{id}")
-    public PersonaOutPut buscarPersonaID(@PathVariable Long id) {
+    public PersonaOutPutSimple buscarPersonaID(@PathVariable Long id) {
         PersonaEntity personaEntity;
         Optional<PersonaEntity> optionalEntity = personaRepository.findById(id);
 
@@ -41,7 +44,7 @@ public class PersonaServiceImpl implements PersonaService {
         }
 
         if (optionalEntity.isPresent()) {
-            return optionalEntity.get().parsePersonaOutputDTO();
+            return optionalEntity.get().parsePersonaOutputSimple();
         } else {
             throw new EntityNotFoundException("No se ha encontrado la persona con el id: " + id);
         }
@@ -50,21 +53,23 @@ public class PersonaServiceImpl implements PersonaService {
 
 
     @Override
-    @GetMapping("/mostrar")
-    public List<PersonaOutPut> listarPersonas() {
+    public List<PersonaOutPutFather> listarPersonas(@RequestParam("outputType") String outputType) {
         List<PersonaEntity> listaPersonas = personaRepository.findAll();
-        List<PersonaOutPut> personaOutputs = new ArrayList<>();
-        ;
+        List<PersonaOutPutFather> personaOutPutFathers = new ArrayList<>();
 
         for (PersonaEntity persona : listaPersonas) {
-            personaOutputs.add(persona.parsePersonaOutputDTO());
+            if (outputType.equalsIgnoreCase("full")) {
+                personaOutPutFathers.add(persona.parsePersonaOutputFull());
+            } else {
+                personaOutPutFathers.add(persona.parsePersonaOutputSimple());
+            }
         }
-        return personaOutputs;
+
+        return personaOutPutFathers;
     }
 
     @Override
-    @PostMapping("/persona")
-    public PersonaOutPut addPersona(@RequestBody PersonaInput personaInput) throws Exception {
+    public PersonaOutPutSimple addPersona(@RequestBody PersonaInput personaInput) throws Exception {
         PersonaEntity p;
         Optional<PersonaInput> personaOptional = Optional.ofNullable(personaInput);
 
@@ -86,7 +91,7 @@ public class PersonaServiceImpl implements PersonaService {
             } else {
                 p = new PersonaEntity(personaInput);
                 personaRepository.save(p);
-                return p.parsePersonaOutputDTO();
+                return p.parsePersonaOutputSimple();
             }
         } else {
             throw new UnprocessableEntityException("Usuario no puede ser nulo");
@@ -121,7 +126,7 @@ public class PersonaServiceImpl implements PersonaService {
     }
 
     @Override
-    public PersonaOutPut updatePersona(@PathVariable Long id, @RequestBody PersonaInput personaData) {
+    public PersonaOutPutSimple updatePersona(@PathVariable Long id, @RequestBody PersonaInput personaData) {
         Optional<PersonaEntity> personaOptional = personaRepository.findById(id);
         PersonaEntity persona;
 
@@ -129,20 +134,20 @@ public class PersonaServiceImpl implements PersonaService {
             persona = new PersonaEntity(personaData);
             persona.setId(id);
             personaRepository.save(persona);
-            return persona.parsePersonaOutputDTO();
+            return persona.parsePersonaOutputSimple();
 
         } else {
             throw new UnprocessableEntityException("El usuario que esta buscando para la actualizacion no existe");
         }
     }
 
-    public PersonaOutPut getPersonaPorNombre(@PathVariable String nombre) {
+    public PersonaOutPutSimple getPersonaPorNombre(@PathVariable String nombre) {
         List<PersonaEntity> listaPersonas = personaRepository.findAll();
-        PersonaOutPut p = null;
+        PersonaOutPutSimple p = null;
 
         for (PersonaEntity persona : listaPersonas) {
             if (persona.getName().equals(nombre)) {
-                return persona.parsePersonaOutputDTO();
+                return persona.parsePersonaOutputSimple();
             }
         }
         throw new UnprocessableEntityException("No existe ningun usuario con ese nombre");

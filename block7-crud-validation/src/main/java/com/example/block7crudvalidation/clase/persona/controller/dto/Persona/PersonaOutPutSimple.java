@@ -9,7 +9,7 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class PersonaOutPut {
+public class PersonaOutPutSimple  implements PersonaOutPutFather{
     private Long id;
     private String usuario;
     private String name;

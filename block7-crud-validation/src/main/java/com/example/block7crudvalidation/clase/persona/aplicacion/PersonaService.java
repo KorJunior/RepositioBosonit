@@ -1,20 +1,21 @@
 package com.example.block7crudvalidation.clase.persona.aplicacion;
 
 import com.example.block7crudvalidation.clase.persona.controller.dto.Persona.PersonaInput;
-import com.example.block7crudvalidation.clase.persona.controller.dto.Persona.PersonaOutPut;
+import com.example.block7crudvalidation.clase.persona.controller.dto.Persona.PersonaOutPutFather;
+import com.example.block7crudvalidation.clase.persona.controller.dto.Persona.PersonaOutPutSimple;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 @Service
 public interface PersonaService {
-    PersonaOutPut buscarPersonaID(Long id);
+    PersonaOutPutSimple buscarPersonaID(Long id);
 
-    List<PersonaOutPut> listarPersonas();
+    List<PersonaOutPutFather> listarPersonas(String outputType);
 
-    PersonaOutPut addPersona(PersonaInput personaInput) throws Exception;
+    PersonaOutPutSimple addPersona(PersonaInput personaInput) throws Exception;
     void deletePersonaById(Long id);
 
-    PersonaOutPut updatePersona(Long id,PersonaInput persona);
+    PersonaOutPutSimple updatePersona(Long id, PersonaInput persona);
 
 }
 

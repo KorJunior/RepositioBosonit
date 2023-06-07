@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+Main-Class: com.example.block7crudvalidation.Block7CrudValidationApplica
+ tion
+

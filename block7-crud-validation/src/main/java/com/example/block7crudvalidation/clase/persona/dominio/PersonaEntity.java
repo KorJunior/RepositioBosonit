@@ -1,8 +1,11 @@
 package com.example.block7crudvalidation.clase.persona.dominio;
 
+import com.example.block7crudvalidation.clase.estudiante.controller.dto.EstudianteOutPutSimple;
 import com.example.block7crudvalidation.clase.estudiante.dominio.EstudianteEntity;
 import com.example.block7crudvalidation.clase.persona.controller.dto.Persona.PersonaInput;
-import com.example.block7crudvalidation.clase.persona.controller.dto.Persona.PersonaOutPut;
+import com.example.block7crudvalidation.clase.persona.controller.dto.Persona.PersonaOutPutFull;
+import com.example.block7crudvalidation.clase.persona.controller.dto.Persona.PersonaOutPutSimple;
+import com.example.block7crudvalidation.clase.profesor.controller.dto.ProfesorOutputSimple;
 import com.example.block7crudvalidation.clase.profesor.dominio.ProfesorEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -74,8 +77,8 @@ public class PersonaEntity {
         this.termination_date = personaInputDTO.getTermination_date();
     }
 
-    public PersonaOutPut parsePersonaOutputDTO() {
-        PersonaOutPut poDTO = new PersonaOutPut();
+    public PersonaOutPutSimple parsePersonaOutputSimple() {
+        PersonaOutPutSimple poDTO = new PersonaOutPutSimple();
 
         poDTO.setId(this.id);
         poDTO.setUsuario(this.usuario);
@@ -89,6 +92,38 @@ public class PersonaEntity {
         poDTO.setImagen_url(this.imagen_url);
         poDTO.setTermination_date(this.termination_date);
         return poDTO;
+    }
+    public PersonaOutPutFull parsePersonaOutputFull() {
+        PersonaOutPutFull poDTO = new PersonaOutPutFull();
+
+        poDTO.setId(this.id);
+        poDTO.setUsuario(this.usuario);
+        poDTO.setName(this.name);
+        poDTO.setSurname(this.surname);
+        poDTO.setCompany_email(this.company_email);
+        poDTO.setPersonal_email(this.personal_email);
+        poDTO.setCity(this.city);
+        poDTO.setActive(this.active);
+        poDTO.setCreated_date(this.created_date);
+        poDTO.setImagen_url(this.imagen_url);
+        poDTO.setTermination_date(this.termination_date);
+        poDTO.setProfesorOutputSimple(comprobadorProfesor());
+        poDTO.setEstudianteOutPutSimple(comprobadorEstudiante());
+        return poDTO;
+    }
+
+    private ProfesorOutputSimple comprobadorProfesor() {
+        if (profesorEntity != null) {
+            return profesorEntity.parseProfesorOutputSimple();
+        }
+        return null;
+    }
+
+    private EstudianteOutPutSimple comprobadorEstudiante() {
+        if (estudianteEntity != null) {
+            return estudianteEntity.parseEstudianteOutputSimple();
+        }
+        return null;
     }
 
     public Long getId() {

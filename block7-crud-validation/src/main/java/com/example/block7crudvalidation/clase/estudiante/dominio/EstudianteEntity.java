@@ -1,6 +1,5 @@
 package com.example.block7crudvalidation.clase.estudiante.dominio;
 
-import com.example.block7crudvalidation.clase.estudiante.controller.dto.EstudianteInPut;
 import com.example.block7crudvalidation.clase.estudiante.controller.dto.EstudianteOutPutSimple;
 import com.example.block7crudvalidation.clase.estudiante.controller.dto.EstudianteOutputFull;
 import com.example.block7crudvalidation.clase.estudianteAsignatura.controller.dto.EstudianteAsignaturaOutPutSimple;
@@ -48,7 +47,7 @@ public class EstudianteEntity {
 
         estudianteOutputFull.setIdEstudiante(this.id_estudiante);
         estudianteOutputFull.setComents(this.coments);
-        estudianteOutputFull.setEstudiante(this.personaEntity.parsePersonaOutputDTO());
+        estudianteOutputFull.setEstudiante(this.personaEntity.parsePersonaOutputSimple());
         estudianteOutputFull.setNum_hours_week(this.num_hours_week);
         estudianteOutputFull.setProfesor(this.profesorEntity.parseProfesorOutputSimple());
         estudianteOutputFull.setEstudios(convertirLista());
@@ -59,7 +58,7 @@ public class EstudianteEntity {
 
         estudianteOutputSimple.setIdEstudiante(this.id_estudiante);
         estudianteOutputSimple.setComents(this.coments);
-        estudianteOutputSimple.setEstudiante(this.personaEntity.parsePersonaOutputDTO());
+        estudianteOutputSimple.setEstudiante(this.personaEntity.parsePersonaOutputSimple());
         estudianteOutputSimple.setNum_hours_week(this.num_hours_week);
         return estudianteOutputSimple;
     }
