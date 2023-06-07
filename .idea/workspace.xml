@@ -39,6 +39,7 @@
     "WebServerToolWindowFactoryState": "false",
     "git-widget-placeholder": "master",
     "last_opened_file_path": "C:/Users/junior.fofana/OneDrive - Bosonit/Escritorio/ProyectosJava_V2",
+    "spring.configuration.checksum": "a31c44e1a48b686d6a963726d9e68f01",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -118,6 +119,7 @@
       <workItem from="1684835582779" duration="29000" />
       <workItem from="1684835615392" duration="2000" />
       <workItem from="1686122527542" duration="115000" />
+      <workItem from="1686122733899" duration="26000" />
     </task>
     <task id="LOCAL-00001" summary="Commit para Actualizacion General">
       <created>1686122608472</created>
@@ -126,7 +128,14 @@
       <option name="project" value="LOCAL" />
       <updated>1686122608472</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Commit para Actualizacion General">
+      <created>1686122749786</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1686122749786</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

@@ -11,9 +11,8 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
-@RequestMapping("/personas")
 @RestController
-
+@CrossOrigin(origins = "*")
 public class ControladorPersona {
     @Autowired
     private PersonaServiceImpl personaService;
@@ -26,7 +25,11 @@ public class ControladorPersona {
     public List<PersonaOutPutFather> listarPersonas(String outputType) {
         return personaService.listarPersonas(outputType);
     }
-    @PostMapping("/personas")
+    @GetMapping("/getall")
+    public List<PersonaOutPutFather> listarPersonasPagina(@RequestParam(required = false, defaultValue = "full") String outputType) {
+        return personaService.listarPersonas(outputType);
+    }
+    @PostMapping("/addperson")
     public PersonaOutPutFather addPersona(@RequestBody PersonaInput personaInput) throws Exception {
         return personaService.addPersona(personaInput);
     }
