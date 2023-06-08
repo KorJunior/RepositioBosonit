@@ -10,18 +10,20 @@ import com.example.block7crudvalidation.clase.persona.controller.dto.Persona.Per
 import com.example.block7crudvalidation.clase.persona.controller.dto.Persona.PersonaOutPutSimple;
 import com.example.block7crudvalidation.clase.persona.dominio.PersonaEntity;
 import com.example.block7crudvalidation.clase.profesor.aplicacion.ProfesorServiceImp;
+import com.example.block7crudvalidation.clase.profesor.controller.dto.ProfesorOutputSimple;
 import com.example.block7crudvalidation.clase.profesor.dominio.ProfesorEntity;
 import com.example.block7crudvalidation.excepciones.EntityNotFoundException;
 import com.example.block7crudvalidation.excepciones.UnprocessableEntityException;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Predicate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Component
 public class PersonaServiceImpl implements PersonaService {
@@ -33,8 +35,7 @@ public class PersonaServiceImpl implements PersonaService {
     @Autowired
     private EstudianteServiceImp estudianteServiceImp;
 
-    @Override
-    @GetMapping("/personaid/{id}")
+
     public PersonaOutPutSimple buscarPersonaID(@PathVariable Long id) {
         PersonaEntity personaEntity;
         Optional<PersonaEntity> optionalEntity = personaRepository.findById(id);
@@ -67,6 +68,129 @@ public class PersonaServiceImpl implements PersonaService {
 
         return personaOutPutFathers;
     }
+    public List<PersonaOutPutFather> buscarPersonas(String user, String name, String surname, Date fechaCreacion, String ordenarPor) {
+        List<PersonaEntity> personas = personaRepository.findAll();
+
+        List<PersonaEntity> resultados = new ArrayList<>();
+
+        for (PersonaEntity persona : personas) {
+            boolean cumpleCriterios = false;
+
+            if (user != null && persona.getUsuario().equals(user)) {
+                cumpleCriterios = true;
+            }
+            if (name != null && persona.getName().equals(name)) {
+                cumpleCriterios = true;
+            }
+            if (surname != null && persona.getSurname().equals(surname)) {
+                cumpleCriterios = true;
+            }
+            if (fechaCreacion != null && persona.getCreated_date().compareTo(fechaCreacion) >= 0) {
+                cumpleCriterios = true;
+            }
+
+            if (cumpleCriterios) {
+                resultados.add(persona);
+            }
+        }
+
+
+        if ("user".equals(ordenarPor)) {
+            resultados.sort(Comparator.comparing(PersonaEntity::getUsuario));
+        } else if ("name".equals(ordenarPor)) {
+            resultados.sort(Comparator.comparing(PersonaEntity::getName));
+        }
+
+
+        return convertirAPersonaOutput(resultados);
+    }
+    public List<String> listarPersonasPagina(String outputType, int pagina, int tamanoPagina) {
+        List<String> hoja = crearHoja(personaRepository.findAll(), outputType);
+        int totalAtributos = hoja.size();
+        int totalPaginas = (int) Math.ceil((double) totalAtributos / tamanoPagina);
+        int inicio = (pagina - 1) * tamanoPagina;
+        int fin = Math.min(inicio + tamanoPagina, totalAtributos);
+
+        if (pagina <= 0 || pagina > totalPaginas) {
+            return new ArrayList<>(); // Página inválida, retornar una lista vacía
+        }
+
+        return hoja.subList(inicio, fin);
+        }
+
+    private List<String> crearHoja(List<PersonaEntity> personas, String outputType) {
+        List<String> hoja = new ArrayList<>();
+        PersonaOutPutSimple personaOutPutSimple;
+        PersonaOutPutFull personaOutPutFull;
+
+        for (PersonaEntity persona : personas) {
+
+            if ("simple".equals(outputType)) {
+                personaOutPutSimple = persona.parsePersonaOutputSimple();
+                hoja.add("id: " + personaOutPutSimple.getId());
+                hoja.add("usuario: " + personaOutPutSimple.getUsuario());
+                hoja.add("name: " + personaOutPutSimple.getName());
+                hoja.add("surname: " + personaOutPutSimple.getSurname());
+                hoja.add("company_email: " + personaOutPutSimple.getCompany_email());
+                hoja.add("personal_email: " + personaOutPutSimple.getPersonal_email());
+                hoja.add("city: " + personaOutPutSimple.getCity());
+                hoja.add("active: " + personaOutPutSimple.getActive());
+                hoja.add("created_date: " + personaOutPutSimple.getCreated_date());
+                hoja.add("imagen_url: " + personaOutPutSimple.getImagen_url());
+                hoja.add("termination_date: " + personaOutPutSimple.getTermination_date());
+            } else {
+                personaOutPutFull = persona.parsePersonaOutputFull();
+                hoja.add("id: " + personaOutPutFull.getId());
+                hoja.add("usuario: " + personaOutPutFull.getUsuario());
+                hoja.add("name: " + personaOutPutFull.getName());
+                hoja.add("surname: " + personaOutPutFull.getSurname());
+                hoja.add("company_email: " + personaOutPutFull.getCompany_email());
+                hoja.add("personal_email: " + personaOutPutFull.getPersonal_email());
+                hoja.add("city: " + personaOutPutFull.getCity());
+                hoja.add("active: " + personaOutPutFull.getActive());
+                hoja.add("created_date: " + personaOutPutFull.getCreated_date());
+                hoja.add("imagen_url: " + personaOutPutFull.getImagen_url());
+                hoja.add("termination_date: " + personaOutPutFull.getTermination_date());
+
+                // Agregar información adicional del profesor si está presente
+                if (personaOutPutFull.getProfesorOutputSimple() != null) {
+                    ProfesorOutputSimple profesorOutputSimple = personaOutPutFull.getProfesorOutputSimple();
+                    hoja.add("profesor id: " + profesorOutputSimple.getIdProfesor());
+                    hoja.add("profesor name: " + profesorOutputSimple.getBranch());
+                }
+
+                // Agregar información adicional del estudiante si está presente
+                if (personaOutPutFull.getEstudianteOutPutSimple() != null) {
+                    EstudianteOutPutSimple estudianteOutPutSimple = personaOutPutFull.getEstudianteOutPutSimple();
+                    hoja.add("estudiante id: " + estudianteOutPutSimple.getIdEstudiante());
+                    hoja.add("estudiante name: " + estudianteOutPutSimple.getIdEstudiante());
+                    hoja.add("estudiante surname: " + estudianteOutPutSimple.getComents());
+                    hoja.add("estudiante surname: " + estudianteOutPutSimple.getNum_hours_week());
+                }
+            }
+        }
+
+        return hoja;
+    }
+
+
+
+
+
+
+
+    public List<PersonaOutPutFather> convertirAPersonaOutput(List<PersonaEntity> personas) {
+        List<PersonaOutPutFather> personasOutput = new ArrayList<>();
+
+        for (PersonaEntity persona : personas) {
+            personasOutput.add(persona.parsePersonaOutputFull());
+        }
+
+        return personasOutput;
+    }
+
+
+
 
     @Override
     public PersonaOutPutSimple addPersona(@RequestBody PersonaInput personaInput) throws Exception {
