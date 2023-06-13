@@ -35,7 +35,7 @@ public class PersonaServiceImpl implements PersonaService {
     @Autowired
     private EstudianteServiceImp estudianteServiceImp;
 
-
+    @Override
     public PersonaOutPutSimple buscarPersonaID(@PathVariable Long id) {
         PersonaEntity personaEntity;
         Optional<PersonaEntity> optionalEntity = personaRepository.findById(id);
@@ -68,6 +68,7 @@ public class PersonaServiceImpl implements PersonaService {
 
         return personaOutPutFathers;
     }
+
     public List<PersonaOutPutFather> buscarPersonas(String user, String name, String surname, Date fechaCreacion, String ordenarPor) {
         List<PersonaEntity> personas = personaRepository.findAll();
 
@@ -104,6 +105,7 @@ public class PersonaServiceImpl implements PersonaService {
 
         return convertirAPersonaOutput(resultados);
     }
+
     public List<String> listarPersonasPagina(String outputType, int pagina, int tamanoPagina) {
         List<String> hoja = crearHoja(personaRepository.findAll(), outputType);
         int totalAtributos = hoja.size();
@@ -116,7 +118,7 @@ public class PersonaServiceImpl implements PersonaService {
         }
 
         return hoja.subList(inicio, fin);
-        }
+    }
 
     private List<String> crearHoja(List<PersonaEntity> personas, String outputType) {
         List<String> hoja = new ArrayList<>();
@@ -174,11 +176,6 @@ public class PersonaServiceImpl implements PersonaService {
     }
 
 
-
-
-
-
-
     public List<PersonaOutPutFather> convertirAPersonaOutput(List<PersonaEntity> personas) {
         List<PersonaOutPutFather> personasOutput = new ArrayList<>();
 
@@ -188,8 +185,6 @@ public class PersonaServiceImpl implements PersonaService {
 
         return personasOutput;
     }
-
-
 
 
     @Override
@@ -229,14 +224,14 @@ public class PersonaServiceImpl implements PersonaService {
         ProfesorEntity profesorEntity;
         EstudianteEntity estudianteEntity;
 
-        if (op1.isPresent()){
+        if (op1.isPresent()) {
             persona = op1.get();
             profesorEntity = persona.getProfesorEntity();
             estudianteEntity = persona.getEstudianteEntity();
 
-            if (profesorEntity != null){
+            if (profesorEntity != null) {
                 profesorServiceImp.deletePersonaById(profesorEntity.getId_profesor());
-            } else if (estudianteEntity != null){
+            } else if (estudianteEntity != null) {
                 estudianteServiceImp.borrarEstudiante(estudianteEntity.getId_estudiante());
             }
         } else {
