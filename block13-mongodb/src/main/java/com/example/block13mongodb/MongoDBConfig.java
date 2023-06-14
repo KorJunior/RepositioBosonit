@@ -23,6 +23,7 @@ public class MongoDBConfig {
     @Bean
     public MongoClient mongoClient() {
         //ConnectionString connectionString = new ConnectionString("mongodb://127.0.0.1:27017");
+        //ConnectionString connectionString = new ConnectionString("mongodb+srv://junior:fofana@cluster0.kozhdlk.mongodb.net");
         ConnectionString connectionString = new ConnectionString("mongodb+srv://junior:fofana@cluster0.kozhdlk.mongodb.net");
         MongoClientSettings settings = MongoClientSettings.builder()
                 .applyConnectionString(connectionString)
